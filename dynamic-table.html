@@ -25,13 +25,14 @@
       background-color: #B3B3B3;
       font-weight: bold;
     }
+    /* 提高优先级的方式，增加 !important 标记 */
     .pass {
-      color: green;
-      font-weight: bold;
+      color: green !important;
+      font-weight: bold !important;
     }
     .failed {
-      color: red;
-      font-weight: bold;
+      color: red !important;
+      font-weight: bold !important;
     }
   </style>
 </head>
@@ -52,19 +53,28 @@
   </div>
   <script>
     $(document).ready(function() {
-      let testResults = [
-        { role: "Admin", functional: "PASS", performance: "FAILED", link: "https://www.google.com" },
-        { role: "Manager", functional: "FAILED", performance: "PASS", link: "https://www.google.com" },
-        { role: "User", functional: "PASS", performance: "PASS", link: "https://www.google.com" }
-      ];
+      // 定义 hashMap，每个角色的测试结果使用数字：80 表示原来的 PASS，50 表示原来的 FAILED
+      let testResults = {
+        "Admin": { functional: 80, performance: 50, link: "https://www.google.com" },
+        "Manager": { functional: 50, performance: 80, link: "https://www.google.com" },
+        "User": { functional: 80, performance: 80, link: "https://www.google.com" }
+      };
       
       let tableBody = "";
-      testResults.forEach(result => {
+      // 遍历 hashMap
+      $.each(testResults, function(role, data) {
+        // 判断 functional 数值大于 60 则为 PASS，否则为 FAILED
+        let functionalStatus = data.functional > 60 ? 'PASS' : 'FAILED';
+        let functionalClass  = data.functional > 60 ? 'pass' : 'failed';
+        // 判断 performance 数值大于 60 则为 PASS，否则为 FAILED
+        let performanceStatus = data.performance > 60 ? 'PASS' : 'FAILED';
+        let performanceClass  = data.performance > 60 ? 'pass' : 'failed';
+        
         tableBody += `<tr>
-          <td>${result.role}</td>
-          <td class="${result.functional === 'PASS' ? 'pass' : 'failed'}">${result.functional}</td>
-          <td class="${result.performance === 'PASS' ? 'pass' : 'failed'}">${result.performance}</td>
-          <td><a href="${result.link}" target="_blank">detail</a></td>
+          <td>${role}</td>
+          <td class="${functionalClass}">${functionalStatus}</td>
+          <td class="${performanceClass}">${performanceStatus}</td>
+          <td><a href="${data.link}" target="_blank">detail</a></td>
         </tr>`;
       });
       
