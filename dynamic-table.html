@@ -16,16 +16,21 @@
       text-align: center;
       padding: 8px;
     }
-    /* 使用更高优先级选择器和 !important 来确保样式生效 */
+    /* 表头样式 */
     .table thead th {
-      background-color: #333 !important; /* 浅黑色背景 */
+      background-color: #333 !important;
       color: white;
     }
+    /* 第一列 (Role) 样式 */
     td:first-child {
       background-color: #B3B3B3;
       font-weight: bold;
     }
-    /* 提高优先级的方式，增加 !important 标记 */
+    /* 为 functional-testing 列设置专用类，保证背景色为纯白色 */
+    .functional-cell {
+      background-color: #fff !important;
+    }
+    /* 状态样式 */
     .pass {
       color: green !important;
       font-weight: bold !important;
@@ -52,32 +57,56 @@
     </table>
   </div>
   <script>
+    // 根据数值返回状态和样式的函数
+    function formatTestResult(score) {
+      return score > 60
+        ? { status: 'PASS', cssClass: 'pass' }
+        : { status: 'FAILED', cssClass: 'failed' };
+    }
+
+    // 根据角色和对应的测试数据生成单行表格 HTML 的函数
+    // isFirst 表示是否为当前 role 的首行，rowSpan 表示当前 role 的测试结果数量
+    function createTableRow(role, test, isFirst, rowSpan) {
+      const functional = formatTestResult(test.functional);
+      const performance = formatTestResult(test.performance);
+      
+      let row = "<tr>";
+      if (isFirst) {
+        row += `<td rowspan="${rowSpan}">${role}</td>`;
+      }
+      // 添加 functional-cell 类，确保背景色为纯白色
+      row += `<td class="functional-cell ${functional.cssClass}">${functional.status}</td>`;
+      row += `<td class="${performance.cssClass}">${performance.status}</td>`;
+      row += `<td><a href="${test.link}" target="_blank">detail</a></td>`;
+      row += "</tr>";
+      return row;
+    }
+
     $(document).ready(function() {
-      // 定义 hashMap，每个角色的测试结果使用数字：80 表示原来的 PASS，50 表示原来的 FAILED
+      // 修改后的 hashMap，每个 role 对应多个测试结果
       let testResults = {
-        "Admin": { functional: 80, performance: 50, link: "https://www.google.com" },
-        "Manager": { functional: 50, performance: 80, link: "https://www.google.com" },
-        "User": { functional: 80, performance: 80, link: "https://www.google.com" }
+        "Admin": [
+          { functional: 80, performance: 50, link: "https://www.google.com" },
+          { functional: 80, performance: 50, link: "https://www.google.com" }
+        ],
+        "Manager": [
+          { functional: 50, performance: 80, link: "https://www.google.com" },
+          { functional: 50, performance: 80, link: "https://www.google.com" }
+        ],
+        "User": [
+          { functional: 80, performance: 80, link: "https://www.google.com" },
+          { functional: 80, performance: 80, link: "https://www.google.com" }
+        ]
       };
-      
+
       let tableBody = "";
-      // 遍历 hashMap
-      $.each(testResults, function(role, data) {
-        // 判断 functional 数值大于 60 则为 PASS，否则为 FAILED
-        let functionalStatus = data.functional > 60 ? 'PASS' : 'FAILED';
-        let functionalClass  = data.functional > 60 ? 'pass' : 'failed';
-        // 判断 performance 数值大于 60 则为 PASS，否则为 FAILED
-        let performanceStatus = data.performance > 60 ? 'PASS' : 'FAILED';
-        let performanceClass  = data.performance > 60 ? 'pass' : 'failed';
-        
-        tableBody += `<tr>
-          <td>${role}</td>
-          <td class="${functionalClass}">${functionalStatus}</td>
-          <td class="${performanceClass}">${performanceStatus}</td>
-          <td><a href="${data.link}" target="_blank">detail</a></td>
-        </tr>`;
+      // 遍历 hashMap，每个 role 可能包含多个测试结果
+      $.each(testResults, function(role, tests) {
+        tests.forEach(function(test, index) {
+          tableBody += createTableRow(role, test, index === 0, tests.length);
+        });
       });
-      
+
       $("#testReport tbody").html(tableBody);
     });
   </script>
