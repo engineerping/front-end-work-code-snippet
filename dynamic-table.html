@@ -26,7 +26,7 @@
       background-color: #B3B3B3;
       font-weight: bold;
     }
-    /* 为 functional-testing 列设置专用类，保证背景色为纯白色 / Set a specific class for functional-testing column to ensure pure white background */
+    /* 为 functional-testing 列设置专用类，保证背景色为纯白色 / Set a specific class for the functional-testing column to ensure pure white background */
     .functional-cell {
       background-color: #fff !important;
     }
@@ -57,16 +57,23 @@
     </table>
   </div>
   <script>
-    // 根据数值返回状态和样式的函数 / Function to return the status and corresponding class based on the score
-    function formatTestResult(score) {
-      return score > 60
-        ? { status: 'PASS', cssClass: 'pass' }
-        : { status: 'FAILED', cssClass: 'failed' };
+    // 根据输入字符串返回状态和对应的 CSS 类 / Function to return status and corresponding class based on the input string
+    // 当输入为 "PASS" 时，效果等价于数字大于 60；当输入为 "FAIL" 时，效果等价于数字小于 60
+    // When the input is "PASS", it is equivalent to a number greater than 60; when the input is "FAIL", it is equivalent to a number less than 60
+    function formatTestResult(result) {
+      if(result === "PASS") {
+         return { status: 'PASS', cssClass: 'pass' };
+      } else if(result === "FAIL") {
+         return { status: 'FAIL', cssClass: 'failed' };
+      } else {
+         // 默认情况 / Default case if input is neither "PASS" nor "FAIL"
+         return { status: 'UNKNOWN', cssClass: '' };
+      }
     }
 
-    // 根据角色和对应的测试数据生成单行表格 HTML 的函数 / Function to generate a single row of table HTML based on role and test data
-    // isFirst 表示是否为当前 role 的首行 / isFirst indicates whether this is the first row for the current role
-    // rowSpan 表示当前 role 的测试结果数量 / rowSpan indicates how many test results exist for the current role
+    // 根据角色和对应的测试数据生成单行表格 HTML 的函数 / Function to generate a single table row HTML based on the role and test data
+    // isFirst 表示是否为当前 role 的首行 / 'isFirst' indicates whether this is the first row for the current role
+    // rowSpan 表示当前 role 的测试结果数量 / 'rowSpan' indicates how many test results exist for the current role
     function createTableRow(role, test, isFirst, rowSpan) {
       const functional = formatTestResult(test.functional);
       const performance = formatTestResult(test.performance);
@@ -75,7 +82,7 @@
       if (isFirst) {
         row += `<td rowspan="${rowSpan}">${role}</td>`;
       }
-      // 添加 functional-cell 类，确保背景色为纯白色 / Add the functional-cell class to ensure the background color is pure white
+      // 添加 functional-cell 类，确保背景色为纯白色 / Add the 'functional-cell' class to ensure the background color is pure white
       row += `<td class="functional-cell ${functional.cssClass}">${functional.status}</td>`;
       row += `<td class="${performance.cssClass}">${performance.status}</td>`;
       row += `<td><a href="${test.link}" target="_blank">detail</a></td>`;
@@ -117,10 +124,9 @@
             tableBody += createTableRow(role, test, index === 0, tests.length);
           });
         });
-
         $("#testReport tbody").html(tableBody);
       }).catch(error => {
-        console.error("Error fetching test results:", error); // 如果数据获取失败 / If there is an error fetching the data
+        console.error("Error fetching test results:", error); // 如果数据获取失败 / Log an error if data fetching fails
       });
     });
   </script>
