@@ -27,8 +27,8 @@
       background-color: #B3B3B3;
       font-weight: bold;
     }
-    /* 为 functional-testing 和 jmx-file 列设置专用类，保证背景色为纯白色 / Set specific classes for functional-testing and jmx-file columns to ensure pure white background */
-    .functional-cell, .jmx-cell {
+    /* 为 functional-testing 和 test-plan 列设置专用类，保证背景色为纯白色 / Set specific classes for functional-testing and test-plan columns to ensure pure white background */
+    .functional-cell, .test-plan-cell {
       background-color: #fff !important;
     }
     /* 状态样式 / Status styles */
@@ -48,7 +48,7 @@
       <thead>
         <tr>
           <th>Role</th>
-          <th>Jmx-file</th> <!-- 新增 Jmx-file 列 / Added Jmx-file column -->
+          <th>Test-plan</th> <!-- 修改列名为 Test-plan / Changed column name to Test-plan -->
           <th>Functional-testing</th>
           <th>Performance-testing</th>
           <th>Detail</th>
@@ -84,7 +84,7 @@
       if (isFirst) {
         row += `<td rowspan="${rowSpan}">${role}</td>`;
       }
-      row += `<td class="jmx-cell">${test.jmx}</td>`; <!-- 新增 Jmx-file 数据 / Added Jmx-file data -->
+      row += `<td class="test-plan-cell">${test.jmx}</td>`; <!-- 修改为 test-plan-cell 类 / Changed to test-plan-cell class -->
       // 添加 functional-cell 类，确保背景色为纯白色 / Add the 'functional-cell' class to ensure the background color is pure white
       row += `<td class="functional-cell ${functional.cssClass}">${functional.status}</td>`;
       row += `<td class="${performance.cssClass}">${performance.status}</td>`;
