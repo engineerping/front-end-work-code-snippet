@@ -1,15 +1,15 @@
 {
     "Admin": [
-      { "functional": "PASS", "jmx": "PASS", "performance": "FAIL", "link": "https://www.google.com" },
-      { "functional": "PASS", "jmx": "PASS", "performance": "FAIL", "link": "https://www.google.com" }
+      { "functional": "PASS", "testPlan": "jmxFile1", "performance": "FAIL", "link": "https://www.google.com" },
+      { "functional": "PASS", "testPlan": "jmxFile2", "performance": "FAIL", "link": "https://www.google.com" }
     ],
     "Manager": [
-      { "functional": "FAIL", "jmx": "PASS", "performance": "PASS", "link": "https://www.google.com" },
-      { "functional": "FAIL", "jmx": "PASS", "performance": "PASS", "link": "https://www.google.com" }
+      { "functional": "FAIL", "testPlan": "jmxFile3", "performance": "PASS", "link": "https://www.google.com" },
+      { "functional": "FAIL", "testPlan": "jmxFile4", "performance": "PASS", "link": "https://www.google.com" }
     ],
     "User": [
-      { "functional": "PASS", "jmx": "PASS", "performance": "PASS", "link": "https://www.google.com" },
-      { "functional": "PASS", "jmx": "PASS", "performance": "PASS", "link": "https://www.google.com" }
+      { "functional": "PASS", "testPlan": "jmxFile5", "performance": "PASS", "link": "https://www.google.com" },
+      { "functional": "PASS", "testPlan": "jmxFile6", "performance": "PASS", "link": "https://www.google.com" }
     ]
   }
   
