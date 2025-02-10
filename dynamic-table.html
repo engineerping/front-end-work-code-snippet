@@ -20,14 +20,15 @@
     .table thead th {
       background-color: #333 !important;
       color: white;
+      font-weight: normal; /* 去除粗体 / Remove bold */
     }
     /* 第一列 (Role) 样式 / Style for the first column (Role) */
     td:first-child {
       background-color: #B3B3B3;
       font-weight: bold;
     }
-    /* 为 functional-testing 列设置专用类，保证背景色为纯白色 / Set a specific class for the functional-testing column to ensure pure white background */
-    .functional-cell {
+    /* 为 functional-testing 和 jmx-file 列设置专用类，保证背景色为纯白色 / Set specific classes for functional-testing and jmx-file columns to ensure pure white background */
+    .functional-cell, .jmx-cell {
       background-color: #fff !important;
     }
     /* 状态样式 / Status styles */
@@ -35,7 +36,7 @@
       color: green !important;
       font-weight: bold !important;
     }
-    .failed {
+    .fail {
       color: red !important;
       font-weight: bold !important;
     }
@@ -47,6 +48,7 @@
       <thead>
         <tr>
           <th>Role</th>
+          <th>Jmx-file</th> <!-- 新增 Jmx-file 列 / Added Jmx-file column -->
           <th>Functional-testing</th>
           <th>Performance-testing</th>
           <th>Detail</th>
@@ -64,7 +66,7 @@
       if(result === "PASS") {
          return { status: 'PASS', cssClass: 'pass' };
       } else if(result === "FAIL") {
-         return { status: 'FAIL', cssClass: 'failed' };
+         return { status: 'FAIL', cssClass: 'fail' };
       } else {
          // 默认情况 / Default case if input is neither "PASS" nor "FAIL"
          return { status: 'UNKNOWN', cssClass: '' };
@@ -82,6 +84,7 @@
       if (isFirst) {
         row += `<td rowspan="${rowSpan}">${role}</td>`;
       }
+      row += `<td class="jmx-cell">${test.jmx}</td>`; <!-- 新增 Jmx-file 数据 / Added Jmx-file data -->
       // 添加 functional-cell 类，确保背景色为纯白色 / Add the 'functional-cell' class to ensure the background color is pure white
       row += `<td class="functional-cell ${functional.cssClass}">${functional.status}</td>`;
       row += `<td class="${performance.cssClass}">${performance.status}</td>`;

@@ -1,15 +1,15 @@
 {
     "Admin": [
-      { "functional": "PASS", "performance": "FAIL", "link": "https://www.google.com" },
-      { "functional": "PASS", "performance": "FAIL", "link": "https://www.google.com" }
+      { "functional": "PASS", "jmx": "PASS", "performance": "FAIL", "link": "https://www.google.com" },
+      { "functional": "PASS", "jmx": "PASS", "performance": "FAIL", "link": "https://www.google.com" }
     ],
     "Manager": [
-      { "functional": "FAIL", "performance": "PASS", "link": "https://www.google.com" },
-      { "functional": "FAIL", "performance": "PASS", "link": "https://www.google.com" }
+      { "functional": "FAIL", "jmx": "PASS", "performance": "PASS", "link": "https://www.google.com" },
+      { "functional": "FAIL", "jmx": "PASS", "performance": "PASS", "link": "https://www.google.com" }
     ],
     "User": [
-      { "functional": "PASS", "performance": "PASS", "link": "https://www.google.com" },
-      { "functional": "PASS", "performance": "PASS", "link": "https://www.google.com" }
+      { "functional": "PASS", "jmx": "PASS", "performance": "PASS", "link": "https://www.google.com" },
+      { "functional": "PASS", "jmx": "PASS", "performance": "PASS", "link": "https://www.google.com" }
     ]
   }
   
